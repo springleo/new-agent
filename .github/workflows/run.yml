@@ -127,7 +127,6 @@ jobs:
         run: |
           set -x
           source .venv/bin/activate
-          ./github-mcp-server/github-mcp-server --list-tools
           ./client.py
         shell: bash
 
