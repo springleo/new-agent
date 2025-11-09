@@ -38,6 +38,9 @@ jobs:
         env:
           GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
         run: |
+          ls -la
+          cd github-mcp-server/cmd/github-mcp-server
+          ls -la
           ./github-mcp-server stdio
         shell: bash
   
