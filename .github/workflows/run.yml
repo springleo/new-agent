@@ -27,8 +27,10 @@ jobs:
 
       - name: Initialize MCP and install dependencies
         run: |
+          set -x
           uv init
           uv venv
+          ls -lartH
           find .venv -name "activate" -exec echo "source {}" \; -exec bash -c 'source "{}" && pip install --upgrade pip' \;
           uv add -r requirements.txt
         shell: bash
