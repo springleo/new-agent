@@ -111,7 +111,7 @@ jobs:
 
       - name: Start GitHub MCP server
         env:
-          GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
+          GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
         run: |
           cd github-mcp-server
           chmod +x github-mcp-server
