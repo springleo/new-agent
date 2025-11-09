@@ -17,9 +17,11 @@ jobs:
 
       - name: Checkout GitHub MCP Server
         uses: actions/checkout@v4
-        path: github-mcp-server
-        ref: main
-        repository: https://github.com/github/github-mcp-server.git
+        with:
+          repository: github/github-mcp-server
+          ref: main
+          path: github-mcp-server
+
 
 
       - name: Build GitHub MCP Server
