@@ -120,16 +120,18 @@ jobs:
           echo "GitHub MCP started with PID $(cat github_mcp_pid.txt)"
         shell: bash
 
-      # - name: Run client.py (call MCP at localhost)
-      #   env:
-      #     GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      #     GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
-      #   run: |
-      #     set -x
-      #     source .venv/bin/activate          
-      #     github-mcp --list-tools
-      #     ./client.py 
-      #   shell: bash
+      - name: Run client.py (call MCP at localhost)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
+        run: |
+          set -x
+          source .venv/bin/activate
+          ls -lartH
+          find . -type f |grep github-mcp-server
+          # github-mcp-server --list-tools
+          # ./client.py
+        shell: bash
 
       # - name: Invoke MCP GitHub Server
       #   run: |

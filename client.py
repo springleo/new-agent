@@ -32,14 +32,14 @@ async def main():
                 "transport": "streamable_http",
             },
             "github": {
-            "command": "github-mcp",
+            "command": "github-mcp-server",
             "args": [
                 "-y",
                 "@modelcontextprotocol/mcp-github",
                 "--repo", "springleo/new-agent",
                 "--token", os.getenv("GITHUB_MCP_TOKEN", ""),
             ],
-            "transport": "streamable_http",
+            "transport": "stdio",
             # "env": {
             #     "GITHUB_MCP_TOKEN": os.getenv("GITHUB_MCP_TOKEN"),
             #     "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
