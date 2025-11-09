@@ -26,6 +26,7 @@ jobs:
 
       - name: Build GitHub MCP Server
         run: |
+          ls -la
           cd cmd/github-mcp-server/
           go build -o github-mcp-server main.go
         shell: bash
