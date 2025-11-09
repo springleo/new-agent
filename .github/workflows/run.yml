@@ -67,9 +67,8 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
         run: |
-          source .venv/bin/activate
-          which github-mcp
-          file .venv/bin/github-mcp
+          set -x
+          source .venv/bin/activate          
           github-mcp --list-tools
           ./client.py 
         shell: bash
