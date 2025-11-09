@@ -31,7 +31,7 @@ jobs:
           uv init
           uv venv
           ls -lartH
-          find .venv -name "activate" -exec echo "source {}" \; -exec bash -c 'source "{}" && pip install --upgrade pip' \;
+          find .venv -name "activate" -exec echo "source {}" \; -exec bash -c 'source "{}" \;
           uv add -r requirements.txt
         shell: bash
       
