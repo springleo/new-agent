@@ -32,7 +32,7 @@ async def main():
                 "transport": "streamable_http",
             },
             "github": {
-            "command": "github-mcp-server",
+            "command": "./github-mcp-server/github-mcp-server",
             "args": [
                 "-y",
                 "@modelcontextprotocol/mcp-github",

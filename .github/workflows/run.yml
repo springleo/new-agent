@@ -127,10 +127,8 @@ jobs:
         run: |
           set -x
           source .venv/bin/activate
-          ls -lartH
-          find . -type f |grep github-mcp-server
-          # github-mcp-server --list-tools
-          # ./client.py
+          ./github-mcp-server/github-mcp-server --list-tools
+          ./client.py
         shell: bash
 
       # - name: Invoke MCP GitHub Server
