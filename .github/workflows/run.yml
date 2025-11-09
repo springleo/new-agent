@@ -23,7 +23,6 @@ jobs:
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           uv --version
-          uv add -r requirements.txt
         shell: bash
 
       - name: Initialize MCP and install dependencies
