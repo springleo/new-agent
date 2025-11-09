@@ -7,71 +7,99 @@ on:
     branches: [ main ]
 
 jobs:
-  
-  run-agent:
+  build_github_mcp_server:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
         with:
-          python-version: '3.10'
+          go-version: '1.18'
 
-      - name: Install uv client 
+      - name: Checkout GitHub MCP Server
+        uses: actions/checkout@v4
+        path: github-mcp-server
+        ref: main
+        repository: https://github.com/github/github-mcp-server.git
+
+
+      - name: Build GitHub MCP Server
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv --version
+          cd cmd/github-mcp-server/
+          go build -o github-mcp-server main.go
         shell: bash
 
-      - name: Initialize MCP and install dependencies
-        run: |
-          set -x
-          uv init
-          uv venv
-          ls -lartH
-          source .venv/bin/activate
-          uv add -r requirements.txt
-          chmod +x *.py
-        shell: bash
-      
-      - name: Start Math MCP server
-        run: |
-          source .venv/bin/activate
-          ./mathserver.py &
-          echo $! > math_mcp_pid.txt
-          echo "Math MCP started with PID $(cat math_mcp_pid.txt)"
-        shell: bash
-
-      - name: Start Weather MCP server
-        run: |
-          source .venv/bin/activate
-          ./weather.py &
-          # for i in {1..30}; do
-          #   if curl -fsS http://127.0.0.1:8080/ >/dev/null 2>&1; then
-          #     echo "Weather MCP is up"
-          #     exit 0
-          #   fi
-          #   sleep 1
-          # done
-          # echo "Weather MCP did not become ready after 30s" >&2
-          # exit 1
-          sleep 5
-          echo $! > weather_mcp_pid.txt
-          echo "Weather MCP started with PID $(cat weather_mcp_pid.txt)"
-        shell: bash
-
-      - name: Run client.py (call MCP at localhost)
+      - name: Run GitHub MCP Server
         env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
         run: |
-          set -x
-          source .venv/bin/activate          
-          github-mcp --list-tools
-          ./client.py 
+          ./github-mcp-server stdio
         shell: bash
+  
+  # run-agent:
+  #   needs: build_github_mcp_server
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
+
+  #     - name: Install uv client 
+  #       run: |
+  #         curl -LsSf https://astral.sh/uv/install.sh | sh
+  #         uv --version
+  #       shell: bash
+
+  #     - name: Initialize MCP and install dependencies
+  #       run: |
+  #         set -x
+  #         uv init
+  #         uv venv
+  #         ls -lartH
+  #         source .venv/bin/activate
+  #         uv add -r requirements.txt
+  #         chmod +x *.py
+  #       shell: bash
+      
+  #     - name: Start Math MCP server
+  #       run: |
+  #         source .venv/bin/activate
+  #         ./mathserver.py &
+  #         echo $! > math_mcp_pid.txt
+  #         echo "Math MCP started with PID $(cat math_mcp_pid.txt)"
+  #       shell: bash
+
+  #     - name: Start Weather MCP server
+  #       run: |
+  #         source .venv/bin/activate
+  #         ./weather.py &
+  #         # for i in {1..30}; do
+  #         #   if curl -fsS http://127.0.0.1:8080/ >/dev/null 2>&1; then
+  #         #     echo "Weather MCP is up"
+  #         #     exit 0
+  #         #   fi
+  #         #   sleep 1
+  #         # done
+  #         # echo "Weather MCP did not become ready after 30s" >&2
+  #         # exit 1
+  #         sleep 5
+  #         echo $! > weather_mcp_pid.txt
+  #         echo "Weather MCP started with PID $(cat weather_mcp_pid.txt)"
+  #       shell: bash
+
+  #     - name: Run client.py (call MCP at localhost)
+  #       env:
+  #         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+  #         GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
+  #       run: |
+  #         set -x
+  #         source .venv/bin/activate          
+  #         github-mcp --list-tools
+  #         ./client.py 
+  #       shell: bash
 
       # - name: Invoke MCP GitHub Server
       #   run: |
