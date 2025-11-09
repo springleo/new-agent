@@ -31,21 +31,21 @@ jobs:
           uv init
           uv venv
           ls -lartH
-          find .venv -name "activate" -exec echo "source {}" \; -exec bash -c 'source "{}"' \;
+          .venv/bin/activate
           uv add -r requirements.txt
           chmod +x *.py
         shell: bash
       
       - name: Start Math MCP server
         run: |
-          find .venv -name "activate" -exec echo "source {}" \; -exec bash -c 'source "{}"' \;
+          .venv/bin/activate
           ./mathserver.py &
           echo $! > math_mcp_pid.txt
         shell: bash
 
       - name: Start Weather MCP server
         run: |
-          find .venv -name "activate" -exec echo "source {}" \; -exec bash -c 'source "{}"' \;
+          .venv/bin/activate
           ./weather.py &
           for i in {1..30}; do
             if curl -fsS http://127.0.0.1:8080/ >/dev/null 2>&1; then
