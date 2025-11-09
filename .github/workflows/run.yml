@@ -114,7 +114,10 @@ jobs:
           GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
         run: |
           cd github-mcp-server
-          ./github-mcp-server stdio
+          chmod +x github-mcp-server
+          ./github-mcp-server stdio &
+          echo $! > github_mcp_pid.txt
+          echo "GitHub MCP started with PID $(cat github_mcp_pid.txt)"
         shell: bash
 
       # - name: Run client.py (call MCP at localhost)
