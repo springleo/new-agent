@@ -1,4 +1,4 @@
 langchain-groq
 langchain-mcp-adapters
-mcp
+fastmcp
 langchain
