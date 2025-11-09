@@ -34,10 +34,9 @@ async def main():
             "github": {
             "command": "./github-mcp-server/github-mcp-server",
             "args": [
-                "-y",
-                "@modelcontextprotocol/mcp-github",
-                "--repo", "springleo/new-agent",
-                "--token", os.getenv("GITHUB_MCP_TOKEN", ""),
+                "stdio",
+                "--toolsets=all",
+                "--dynamic-toolsets",
             ],
             "transport": "stdio",
             # "env": {
