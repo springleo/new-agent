@@ -8,7 +8,7 @@ on:
 
 jobs:
   
-  predictive-analysis:
+  run-agent:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -65,6 +65,7 @@ jobs:
       - name: Run client.py (call MCP at localhost)
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
         run: |
           source .venv/bin/activate
           ./client.py 

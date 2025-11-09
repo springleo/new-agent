@@ -3,3 +3,4 @@ langchain-mcp-adapters
 fastmcp
 langchain
 loadenv
+mcp-github

@@ -31,6 +31,15 @@ async def main():
                 "url": "http://127.0.0.1:8000/mcp",
                 "transport": "streamable_http",
             },
+            "github": {
+            "command": "github-mcp",
+            "args": [],
+            "transport": "stdio",
+            "env": {
+                "GITHUB_MCP_TOKEN": os.getenv("GITHUB_MCP_TOKEN"),
+                "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
+            },
+            }
         }
     )
 
