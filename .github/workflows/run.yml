@@ -26,7 +26,11 @@ jobs:
 
       - name: Build GitHub MCP Server
         run: |
-          cd github-mcp-server/cmd/github-mcp-server/
+          cd github-mcp-server
+          sed -i 's/1.24.0/1.23/' go.mod
+          go mod tidy
+          go build ./...
+          cd cmd/github-mcp-server/
           go build -o github-mcp-server main.go
         shell: bash
 
