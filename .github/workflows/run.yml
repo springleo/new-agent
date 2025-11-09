@@ -68,6 +68,9 @@ jobs:
           GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
         run: |
           source .venv/bin/activate
+          which github-mcp
+          file .venv/bin/github-mcp
+          github-mcp --list-tools
           ./client.py 
         shell: bash
 
