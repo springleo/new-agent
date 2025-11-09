@@ -39,10 +39,10 @@ async def main():
                 "--dynamic-toolsets",
             ],
             "transport": "stdio",
-            # "env": {
-            #     "GITHUB_MCP_TOKEN": os.getenv("GITHUB_MCP_TOKEN"),
-            #     "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
-            # },
+            "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
+                "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
+            },
             }
         }
     )
