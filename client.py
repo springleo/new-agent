@@ -32,17 +32,17 @@ async def main():
                 "transport": "streamable_http",
             },
             "github": {
-            "command": "./github-mcp-server/github-mcp-server",
-            "args": [
-                "stdio",
-                "--toolsets=all",
-                "--dynamic-toolsets",
-            ],
-            "transport": "stdio",
-            "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
-                "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
-            },
+                "command": "./github-mcp-server/github-mcp-server",
+                "args": [
+                    "stdio",
+                    "--toolsets=all",
+                    "--dynamic-toolsets",
+                ],
+                "transport": "stdio",
+                "env": {
+                    "GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
+                    "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
+                },
             }
         }
     )
@@ -116,19 +116,25 @@ async def main():
         log(f"❌ Weather invocation failed: {e}")
 
     # FOR Github MCP srv
-    # Step 1: List available GitHub toolsets
+    # Step 1: Access the underlying GitHub MCP client
+    github_client = client.clients["github"]
+
+    # Step 2: List all available toolsets
     print("\n[client] Listing available GitHub toolsets...")
-    toolsets = await client.call_tool("github", "list_available_toolsets", {})
-    print(toolsets)
+    toolsets = await github_client.call_tool(
+        "list_available_toolsets",  # tool name
+        {}                           # tool input (empty dict)
+    )
+    print("Available toolsets:", toolsets)
 
-    # Step 2: Enable a specific toolset (e.g., GitHub Actions)
+    # Step 3: Enable a toolset
     print("\n[client] Enabling 'actions' toolset...")
-    await client.call_tool("github", "enable_toolset", {"toolset_name": "actions"})
+    await github_client.call_tool("enable_toolset", {"toolset_name": "actions"})
 
-    # Step 3: Get all tools within that toolset
+    # Step 4: Get tools within that toolset
     print("\n[client] Fetching tools under 'actions' toolset...")
-    actions_tools = await client.call_tool("github", "get_toolset_tools", {"toolset_name": "actions"})
-    print(actions_tools)
+    actions_tools = await github_client.call_tool("get_toolset_tools", {"toolset_name": "actions"})
+    print("Actions tools:", actions_tools)
 
     print("\n[client] Asking agent to trigger workflow...")
     response = await agent.ainvoke({
