@@ -115,37 +115,57 @@ async def main():
     except Exception as e:
         log(f"❌ Weather invocation failed: {e}")
 
-    # FOR Github MCP srv
-    # Step 1: Access the underlying GitHub MCP client
-    github_client = client.clients["github"]
+  # ─────────────────────────────────────────────
+    # Step 4: Invoke github
+    try:
+        log("Invoking github tool...")
+        github_response = await asyncio.wait_for(
+            agent.ainvoke(
+                {
+                    "messages": [
+                        {"role": "user", "content": "Is there a CI workflow in this repo?"},
+                    ]
+                }
+            ),
+            timeout=15,
+        )
+        log(f"🌦️ github result: {github_response['messages'][-1].content}")
+    except asyncio.TimeoutError:
+        log("❌ Timeout during github invocation.")
+    except Exception as e:
+        log(f"❌ github invocation failed: {e}")
+    # # FOR Github MCP srv
+    # # Step 1: Access the underlying GitHub MCP client
+    # client.client       
+    # github_client = client.clients["github"]
 
-    # Step 2: List all available toolsets
-    print("\n[client] Listing available GitHub toolsets...")
-    toolsets = await github_client.call_tool(
-        "list_available_toolsets",  # tool name
-        {}                           # tool input (empty dict)
-    )
-    print("Available toolsets:", toolsets)
+    # # Step 2: List all available toolsets
+    # print("\n[client] Listing available GitHub toolsets...")
+    # toolsets = await github_client.call_tool(
+    #     "list_available_toolsets",  # tool name
+    #     {}                           # tool input (empty dict)
+    # )
+    # print("Available toolsets:", toolsets)
 
-    # Step 3: Enable a toolset
-    print("\n[client] Enabling 'actions' toolset...")
-    await github_client.call_tool("enable_toolset", {"toolset_name": "actions"})
+    # # Step 3: Enable a toolset
+    # print("\n[client] Enabling 'actions' toolset...")
+    # await github_client.call_tool("enable_toolset", {"toolset_name": "actions"})
 
-    # Step 4: Get tools within that toolset
-    print("\n[client] Fetching tools under 'actions' toolset...")
-    actions_tools = await github_client.call_tool("get_toolset_tools", {"toolset_name": "actions"})
-    print("Actions tools:", actions_tools)
+    # # Step 4: Get tools within that toolset
+    # print("\n[client] Fetching tools under 'actions' toolset...")
+    # actions_tools = await github_client.call_tool("get_toolset_tools", {"toolset_name": "actions"})
+    # print("Actions tools:", actions_tools)
 
-    print("\n[client] Asking agent to trigger workflow...")
-    response = await agent.ainvoke({
-        "messages": [
-            {
-                "role": "user",
-                "content": "Is there a CI workflow in this repo ?",
-            }
-        ]
-    })
-    print("\n[client] Response:\n", response["messages"][-1].content)
+    # print("\n[client] Asking agent to trigger workflow...")
+    # response = await agent.ainvoke({
+    #     "messages": [
+    #         {
+    #             "role": "user",
+    #             "content": "Is there a CI workflow in this repo ?",
+    #         }
+    #     ]
+    # })
+    # print("\n[client] Response:\n", response["messages"][-1].content)
     log("🎉 Done.")
 
 
