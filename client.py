@@ -124,7 +124,8 @@ async def main():
                 {
                     "messages": [
                         {"role": "user", "content": "Is there a CI workflow in this \"springleo/new-agent\" ?"},
-                    ]
+                    ],
+                    "tools": ["list_workflows"],
                 }
             ),
             timeout=15,
