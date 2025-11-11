@@ -53,7 +53,7 @@ async def main():
         log("⚠️  GROQ_API_KEY not found in environment")
 
     # ─────────────────────────────────────────────
-    # Step 1: Try fetching tools from both servers
+    # Step 1: Try fetching tools from all servers
     log("Fetching available MCP tools...")
     try:
         tools = await asyncio.wait_for(client.get_tools(), timeout=10)
@@ -115,6 +115,31 @@ async def main():
     except Exception as e:
         log(f"❌ Weather invocation failed: {e}")
 
+    # FOR Github MCP srv
+    # Step 1: List available GitHub toolsets
+    print("\n[client] Listing available GitHub toolsets...")
+    toolsets = await client.call_tool("github", "list_available_toolsets", {})
+    print(toolsets)
+
+    # Step 2: Enable a specific toolset (e.g., GitHub Actions)
+    print("\n[client] Enabling 'actions' toolset...")
+    await client.call_tool("github", "enable_toolset", {"toolset_name": "actions"})
+
+    # Step 3: Get all tools within that toolset
+    print("\n[client] Fetching tools under 'actions' toolset...")
+    actions_tools = await client.call_tool("github", "get_toolset_tools", {"toolset_name": "actions"})
+    print(actions_tools)
+
+    print("\n[client] Asking agent to trigger workflow...")
+    response = await agent.ainvoke({
+        "messages": [
+            {
+                "role": "user",
+                "content": "Is there a CI workflow in this repo ?",
+            }
+        ]
+    })
+    print("\n[client] Response:\n", response["messages"][-1].content)
     log("🎉 Done.")
 
 
