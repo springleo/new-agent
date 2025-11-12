@@ -113,8 +113,8 @@ jobs:
         env:
           GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
         run: |
-          cd github-mcp-server
-          chmod +x github-mcp-server
+          pwd; ls -lrtH
+          chmod +x ./github-mcp-server/github-mcp-server
           echo "GitHub MCP now has execute permissions"
         shell: bash
 
