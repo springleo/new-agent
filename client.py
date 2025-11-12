@@ -3,7 +3,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from langchain.agents import create_agent
+from langgraph.prebuilt import create_react_agent
 from langchain_groq import ChatGroq
 
 load_dotenv()
@@ -69,7 +69,7 @@ async def main():
     # Step 2: Setup model & agent
     try:
         model = ChatGroq(model="openai/gpt-oss-120b")
-        agent = create_agent(model, tools)
+        agent = create_react_agent(model, tools)
         log("✅ LangGraph agent initialized with MCP tools")
     except Exception as e:
         log(f"❌ Failed to create agent: {e}")
