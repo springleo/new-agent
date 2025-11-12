@@ -115,7 +115,7 @@ jobs:
         run: |
           cd github-mcp-server
           chmod +x github-mcp-server
-          ./github-mcp-server stdio --toolsets=issues, pull_requests, users, orgs, actions --dynamic-toolsets &
+          ./github-mcp-server stdio &
           echo $! > github_mcp_pid.txt
           echo "GitHub MCP started with PID $(cat github_mcp_pid.txt)"
         shell: bash

@@ -123,9 +123,9 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "are there any open issues or prs in repo \"springleo/new-agent\" ?"},
+                        {"role": "user", "content": "are there any open issues or prs in this repo ?"},
                     ],
-                    "tools": ["list_workflows"],
+                    # "tools": ["list_workflows"],
                 }
             ),
             timeout=15,
