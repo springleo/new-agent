@@ -35,7 +35,7 @@ async def main():
                 "command": "./github-mcp-server/github-mcp-server",
                 "args": [
                     "stdio",
-                    "--toolsets=all",
+                    "--toolsets=list_workflows",
                     "--dynamic-toolsets",
                 ],
                 "transport": "stdio",
