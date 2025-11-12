@@ -119,22 +119,22 @@ async def main():
     # Step 4: Invoke github
     try:
         log("Invoking github tool...")
-        github_response_1 = await asyncio.wait_for(
-            agent.ainvoke(
-                {
-                    "messages": [
-                        {"role": "user", "content":"create a branch named 'feature/ci-update' from main in 'springleo/new-agent' "},
-                    ],
-                }
-            ),
-            timeout=15,
-        )
-        log(f"🌦️ github result: {github_response_1['messages'][-1].content}")
+        # github_response_1 = await asyncio.wait_for(
+        #     agent.ainvoke(
+        #         {
+        #             "messages": [
+        #                 {"role": "user", "content":"create a branch named 'feature/ci-update' from main in 'springleo/new-agent' "},
+        #             ],
+        #         }
+        #     ),
+        #     timeout=15,
+        # )
+        # log(f"🌦️ github result: {github_response_1['messages'][-1].content}")
         github_response_2 = await asyncio.wait_for(
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "create a feature branch and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
+                        {"role": "user", "content": "create a branch named 'feature/ci-update' from main, and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
                     ],
                 }
             ),
