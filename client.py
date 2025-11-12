@@ -83,7 +83,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "What is 4 times 5 plus 20?"},
+                        {"role": "user", "content": "What is 9 times 20 whole square ?"},
                     ]
                 }
             ),
@@ -123,7 +123,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "create a feature branch and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
+                        {"role": "user", "content": "create a feature branch viz. feature/test-pr and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
                     ],
                 }
             ),
