@@ -83,7 +83,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "What is 4 times 5 plus 20?"},
+                        {"role": "user", "content": "What is 9 plus 20 whole square?"},
                     ]
                 }
             ),
@@ -103,7 +103,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "What is weather in Pune?"},
+                        {"role": "user", "content": "What is weather in India?"},
                     ]
                 }
             ),
@@ -119,7 +119,18 @@ async def main():
     # Step 4: Invoke github
     try:
         log("Invoking github tool...")
-        github_response = await asyncio.wait_for(
+         github_response_1 = await asyncio.wait_for(
+            agent.ainvoke(
+                {
+                    "messages": [
+                        {"role": "user", "content":"create a branch named 'feature/ci-update' from main in 'springleo/new-agent' "},
+                    ],
+                }
+            ),
+            timeout=15,
+        )
+        log(f"🌦️ github result: {github_response_1['messages'][-1].content}")
+        github_response_2 = await asyncio.wait_for(
             agent.ainvoke(
                 {
                     "messages": [
@@ -129,7 +140,7 @@ async def main():
             ),
             timeout=15,
         )
-        log(f"🌦️ github result: {github_response['messages'][-1].content}")
+        log(f"🌦️ github result: {github_response_2['messages'][-1].content}")
     except asyncio.TimeoutError:
         log("❌ Timeout during github invocation.")
     except Exception as e:

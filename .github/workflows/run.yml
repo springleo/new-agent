@@ -85,23 +85,23 @@ jobs:
       #     echo "Math MCP started with PID $(cat math_mcp_pid.txt)"
       #   shell: bash
 
-      - name: Start Weather MCP server
-        run: |
-          source .venv/bin/activate
-          ./weather.py &
-          # for i in {1..30}; do
-          #   if curl -fsS http://127.0.0.1:8080/ >/dev/null 2>&1; then
-          #     echo "Weather MCP is up"
-          #     exit 0
-          #   fi
-          #   sleep 1
-          # done
-          # echo "Weather MCP did not become ready after 30s" >&2
-          # exit 1
-          sleep 5
-          echo $! > weather_mcp_pid.txt
-          echo "Weather MCP started with PID $(cat weather_mcp_pid.txt)"
-        shell: bash
+      # - name: Start Weather MCP server
+      #   run: |
+      #     source .venv/bin/activate
+      #     ./weather.py &
+      #     # for i in {1..30}; do
+      #     #   if curl -fsS http://127.0.0.1:8080/ >/dev/null 2>&1; then
+      #     #     echo "Weather MCP is up"
+      #     #     exit 0
+      #     #   fi
+      #     #   sleep 1
+      #     # done
+      #     # echo "Weather MCP did not become ready after 30s" >&2
+      #     # exit 1
+      #     sleep 5
+      #     echo $! > weather_mcp_pid.txt
+      #     echo "Weather MCP started with PID $(cat weather_mcp_pid.txt)"
+      #   shell: bash
 
       - name: Download GitHub MCP Server Artifact
         uses: actions/download-artifact@v4
@@ -109,16 +109,16 @@ jobs:
           name: github-mcp-server
           path: github-mcp-server
 
-      - name: Start GitHub MCP server
-        env:
-          GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
-        run: |
-          cd github-mcp-server
-          chmod +x github-mcp-server
-          ./github-mcp-server stdio &
-          echo $! > github_mcp_pid.txt
-          echo "GitHub MCP started with PID $(cat github_mcp_pid.txt)"
-        shell: bash
+      # - name: Start GitHub MCP server
+      #   env:
+      #     GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
+      #   run: |
+      #     cd github-mcp-server
+      #     chmod +x github-mcp-server
+      #     ./github-mcp-server stdio &
+      #     echo $! > github_mcp_pid.txt
+      #     echo "GitHub MCP started with PID $(cat github_mcp_pid.txt)"
+      #   shell: bash
 
       - name: Run client.py (call MCP at localhost)
         env:
