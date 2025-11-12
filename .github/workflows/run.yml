@@ -109,16 +109,14 @@ jobs:
           name: github-mcp-server
           path: github-mcp-server
 
-      # - name: Start GitHub MCP server
-      #   env:
-      #     GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
-      #   run: |
-      #     cd github-mcp-server
-      #     chmod +x github-mcp-server
-      #     ./github-mcp-server stdio &
-      #     echo $! > github_mcp_pid.txt
-      #     echo "GitHub MCP started with PID $(cat github_mcp_pid.txt)"
-      #   shell: bash
+      - name: Make GitHub MCP server executable
+        env:
+          GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
+        run: |
+          cd github-mcp-server
+          chmod +x github-mcp-server
+          echo "GitHub MCP now has execute permissions"
+        shell: bash
 
       - name: Run client.py (call MCP at localhost)
         env:
