@@ -3,7 +3,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_groq import ChatGroq
 
 load_dotenv()
@@ -69,7 +69,7 @@ async def main():
     # Step 2: Setup model & agent
     try:
         model = ChatGroq(model="openai/gpt-oss-120b")
-        agent = create_react_agent(model, tools)
+        agent = create_agent(model, tools)
         log("✅ LangGraph agent initialized with MCP tools")
     except Exception as e:
         log(f"❌ Failed to create agent: {e}")
@@ -107,7 +107,7 @@ async def main():
                     ]
                 }
             ),
-            timeout=15,
+            timeout=20,
         )
         log(f"🌦️ Weather result: {weather_response['messages'][-1].content}")
     except asyncio.TimeoutError:
@@ -123,9 +123,8 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "are there any open issues or prs in this repo ?"},
+                        {"role": "user", "content": "are there any open issues or prs in this repo 'springleo/new-agent' ? Also check if there is a CI workflow present in this repo"},
                     ],
-                    # "tools": ["list_workflows"],
                 }
             ),
             timeout=15,
