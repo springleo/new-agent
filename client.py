@@ -119,7 +119,7 @@ async def main():
     # Step 4: Invoke github
     try:
         log("Invoking github tool...")
-         github_response_1 = await asyncio.wait_for(
+        github_response_1 = await asyncio.wait_for(
             agent.ainvoke(
                 {
                     "messages": [
