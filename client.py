@@ -19,34 +19,33 @@ async def main():
     log("Initializing MultiServerMCPClient...")
 
     client = MultiServerMCPClient(
-    {
-        # math server via stdio (runs inside venv)
-        "math": {
-            "command": "bash",
-            "args": ["-c", "source .venv/bin/activate && python -u mathserver.py"],
-            "transport": "stdio",
-        },
-        # weather server via HTTP (external, doesn’t need venv)
-        "weather": {
-            "url": "http://127.0.0.1:8000/mcp",
-            "transport": "streamable_http",
-        },
-        # github server via stdio (runs inside venv)
-        "github": {
-            "command": "bash",
-            "args": [
-                "-c",
-                "source .venv/bin/activate && ./github-mcp-server/github-mcp-server stdio "
-                "--toolsets=issues,pull_requests,users,orgs,actions --dynamic-toolsets",
-            ],
-            "transport": "stdio",
-            "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
-                "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
+        {
+            # math server via stdio (note: -u for unbuffered mode!)
+            "math": {
+                "command": "python",
+                "args": ["-u", "mathserver.py"],
+                "transport": "stdio",
             },
-        },
-    }
-)
+            # weather server via HTTP
+            "weather": {
+                "url": "http://127.0.0.1:8000/mcp",
+                "transport": "streamable_http",
+            },
+            "github": {
+                "command": "./github-mcp-server/github-mcp-server",
+                "args": [
+                    "stdio",
+                    "--toolsets=issues,pull_requests,users,orgs,actions",
+                    "--dynamic-toolsets",
+                ],
+                "transport": "stdio",
+                "env": {
+                    "GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
+                    "GITHUB_MCP_REPO": "springleo/new-agent",  # optional default repo
+                },
+            }
+        }
+    )
 
     # Ensure API key available
     os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY", "")
@@ -84,7 +83,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "What is 9 plus 20 whole square?"},
+                        {"role": "user", "content": "What is 4 times 5 plus 20?"},
                     ]
                 }
             ),
@@ -104,7 +103,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "What is weather in India?"},
+                        {"role": "user", "content": "What is weather in Pune?"},
                     ]
                 }
             ),
@@ -120,28 +119,17 @@ async def main():
     # Step 4: Invoke github
     try:
         log("Invoking github tool...")
-        # github_response_1 = await asyncio.wait_for(
-        #     agent.ainvoke(
-        #         {
-        #             "messages": [
-        #                 {"role": "user", "content":"create a branch named 'feature/ci-update' from main in 'springleo/new-agent' "},
-        #             ],
-        #         }
-        #     ),
-        #     timeout=15,
-        # )
-        # log(f"🌦️ github result: {github_response_1['messages'][-1].content}")
-        github_response_2 = await asyncio.wait_for(
+        github_response = await asyncio.wait_for(
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "create a branch named 'feature/ci-update' from main, and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
+                        {"role": "user", "content": "create a feature branch and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
                     ],
                 }
             ),
             timeout=15,
         )
-        log(f"🌦️ github result: {github_response_2['messages'][-1].content}")
+        log(f"🌦️ github result: {github_response['messages'][-1].content}")
     except asyncio.TimeoutError:
         log("❌ Timeout during github invocation.")
     except Exception as e:
