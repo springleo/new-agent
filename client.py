@@ -123,7 +123,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "create issues for the last 5 failed jobs of CI workflow in 'springleo/new-agent' ? "},
+                        {"role": "user", "content": "create a feature branch and raise a PR from that feature branch to main branch in 'springleo/new-agent' ? "},
                     ],
                 }
             ),

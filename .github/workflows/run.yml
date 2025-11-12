@@ -77,13 +77,13 @@ jobs:
           chmod +x *.py
         shell: bash
       
-      - name: Start Math MCP server
-        run: |
-          source .venv/bin/activate
-          ./mathserver.py &
-          echo $! > math_mcp_pid.txt
-          echo "Math MCP started with PID $(cat math_mcp_pid.txt)"
-        shell: bash
+      # - name: Start Math MCP server
+      #   run: |
+      #     source .venv/bin/activate
+      #     ./mathserver.py &
+      #     echo $! > math_mcp_pid.txt
+      #     echo "Math MCP started with PID $(cat math_mcp_pid.txt)"
+      #   shell: bash
 
       - name: Start Weather MCP server
         run: |
