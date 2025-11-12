@@ -68,7 +68,7 @@ async def main():
     # ─────────────────────────────────────────────
     # Step 2: Setup model & agent
     try:
-        model = ChatGroq(model="gpt-4o-mini")
+        model = ChatGroq(model="qwen/qwen3-32b")
         agent = create_react_agent(model, tools)
         log("✅ LangGraph agent initialized with MCP tools")
     except Exception as e:
