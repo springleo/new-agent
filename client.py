@@ -35,7 +35,7 @@ async def main():
                 "command": "./github-mcp-server/github-mcp-server",
                 "args": [
                     "stdio",
-                    "--toolsets=list_workflows",
+                    "--toolsets=issues,pull_requests,users,orgs,actions",
                     "--dynamic-toolsets",
                 ],
                 "transport": "stdio",
@@ -123,7 +123,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "Is there a CI workflow in this \"springleo/new-agent\" ?"},
+                        {"role": "user", "content": "are there any open issues or prs in repo \"springleo/new-agent\" ?"},
                     ],
                     "tools": ["list_workflows"],
                 }
