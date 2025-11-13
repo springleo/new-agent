@@ -123,7 +123,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "How many workflows are present in 'springleo/new-agent' ? "},
+                        {"role": "user", "content": "list all workflows present in 'springleo/new-agent' ? "},
                     ],
                 }
             ),
