@@ -123,7 +123,7 @@ jobs:
       - name: Run client.py (call MCP at localhost)
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          # GITHUB_MCP_TOKEN: ${{ secrets.AGENTIC_TOKEN }}
+          MODEL_NAME: ${{ vars.MODEL_NAME }}
           GITHUB_PERSONAL_ACCESS_TOKEN : ${{ secrets.AGENTIC_TOKEN }}
         run: |
           set -x

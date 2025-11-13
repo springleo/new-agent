@@ -68,7 +68,7 @@ async def main():
     # ─────────────────────────────────────────────
     # Step 2: Setup model & agent
     try:
-        model = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct")
+        model = ChatGroq(model=os.getenv("MODEL_NAME"))
         agent = create_react_agent(model, tools)
         log("✅ LangGraph agent initialized with MCP tools")
     except Exception as e:
@@ -123,7 +123,7 @@ async def main():
             agent.ainvoke(
                 {
                     "messages": [
-                        {"role": "user", "content": "create a feature branch viz. feature/test-pr and raise a PR from that feature branch to main branch with a PR title like \"dummy PR\" in 'springleo/new-agent' ? "},
+                        {"role": "user", "content": "How many workflows are present in 'springleo/new-agent' ? "},
                     ],
                 }
             ),
